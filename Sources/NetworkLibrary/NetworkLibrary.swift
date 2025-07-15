@@ -21,4 +21,14 @@ public protocol Request {
     
     var endpoint: String { get }
     
+    var requestTimeout: Int { get }
+    
+    var headers: [String: Any] { get }
+    
+    var queryParams: [String: Any] { get }
+    
+    var isCacheable: Bool { get }
+    
+    var cacheExpiryTime: Bool { get }
+    
 }
