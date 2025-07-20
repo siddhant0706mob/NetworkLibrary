@@ -5,6 +5,7 @@ protocol NetworkMonitorProtocol {
     var isConnected: Bool { get }
 }
 
+@available(macOS 10.14, *)
 final class NetworkMonitor: @unchecked Sendable, NetworkMonitorProtocol {
     static let shared = NetworkMonitor()
     private let monitor = NWPathMonitor()
