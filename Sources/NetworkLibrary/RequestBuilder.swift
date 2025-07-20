@@ -28,7 +28,7 @@ class RequestBuilder {
         
         guard let url = urlComponent.url else { return nil }
         
-        var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: request.requestTimeout)
+        var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: request.requestTimeout ?? TimeInterval(60))
         
         urlRequest.httpMethod = request.methodType.rawValue
         urlRequest.httpBody = request.body
