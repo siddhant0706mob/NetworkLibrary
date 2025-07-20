@@ -35,7 +35,7 @@ public protocol Request {
     
     var endpoint: String { get }
     
-    var requestTimeout: TimeInterval { get }
+    var requestTimeout: TimeInterval? { get }
     
     var headers: [HTTPParams] { get }
     
@@ -47,7 +47,7 @@ public protocol Request {
     
     var retryCount: Int { get }
     
-    var body: Data { get }
+    var body: Data? { get }
 }
 
 public protocol Response: Decodable { }
