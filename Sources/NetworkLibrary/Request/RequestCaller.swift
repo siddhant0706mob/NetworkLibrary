@@ -26,15 +26,10 @@ final class RequestCaller: RequestCallerProtocol, Sendable {
         urlSession.dataTask(with: request, completionHandler: { [weak self] data, response, error in
             if let error {
                 if let error = error as? APIError {
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
+                    completion(.failure(error))
                 } else {
-                    DispatchQueue.main.async {
-                        completion(.failure(.custom(error)))
-                    }
+                    completion(.failure(.custom(error)))
                 }
-                
             }
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(.failure(.noData))
