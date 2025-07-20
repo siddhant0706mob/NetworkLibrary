@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RequestCallerProtocol {
-    func call<T: Decodable>(_ request: URLRequest, completion: @Sendable @escaping (Result<T, APIError>) -> Void)
+    func call<T: Response>(_ request: URLRequest, completion: @Sendable @escaping (Result<T, APIError>) -> Void)
 }
 
 final class RequestCaller: RequestCallerProtocol, Sendable {
@@ -22,7 +22,7 @@ final class RequestCaller: RequestCallerProtocol, Sendable {
         self.parser = parser
     }
     
-    func call<T>(_ request: URLRequest, completion: @Sendable @escaping (Result<T, APIError>) -> Void) where T : Decodable {
+    func call<T: Response>(_ request: URLRequest, completion: @Sendable @escaping (Result<T, APIError>) -> Void) {
         urlSession.dataTask(with: request, completionHandler: { [weak self] data, response, error in
             if let error {
                 if let error = error as? APIError {
@@ -42,7 +42,7 @@ final class RequestCaller: RequestCallerProtocol, Sendable {
             }
             
             guard let data else {
-                completion(.failure(APIError.noData))
+                completion(.failure(.noData))
                 return
             }
             
