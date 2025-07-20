@@ -44,8 +44,6 @@ final class RequestCaller: RequestCallerProtocol, Sendable {
             if (200...299).contains(httpResponse.statusCode) {
                 self?.parser.parseResponse(data, completion: completion)
             }
-            
-            
         }).resume()
     }
 }
