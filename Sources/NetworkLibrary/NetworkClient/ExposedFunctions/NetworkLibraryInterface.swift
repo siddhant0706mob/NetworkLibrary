@@ -9,8 +9,8 @@ public enum APIError: Error {
     case invalidResponse
     case decodingFailed
     case noData
-    case urlSessionError(URLSession.ResponseDisposition)
     case custom(Error)
+    case errorWithStatusCode(Int)
 }
 
 public enum MethodType: String {

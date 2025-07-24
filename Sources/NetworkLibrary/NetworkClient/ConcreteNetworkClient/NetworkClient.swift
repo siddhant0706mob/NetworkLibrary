@@ -7,7 +7,8 @@
 
 import Foundation
 
-class NetworkClient: NetworkClientProtocol {
+final class NetworkClient: Sendable,
+                           NetworkClientProtocol {
    
     private let requestCaller: RequestCallerProtocol
     
@@ -32,7 +33,7 @@ class NetworkClient: NetworkClientProtocol {
             completion(.failure(.invalidURL))
             return
         }
-        requestCaller.request(urlRequest) { data, response, error in
+        requestCaller.request(urlRequest) { [weak self] data, response, error in
             if let error {
                 completion(.failure(.custom(error)))
                 return
@@ -49,15 +50,18 @@ class NetworkClient: NetworkClientProtocol {
             }
             
             if (200...299).contains(response.statusCode) {
-                decoder.parseResponse(data, completion: { result in  
-                    switch result {
-                    case .failure(let error):
-                        completion(result)
-                    case .success(let value):
-                        completion(.success(value))
-                    }
+                self?.decoder.parseResponse(data, tClass: T.self, completion: { result in
+                    completion(result)
                 })
+                return
             }
+            
+            if response.statusCode == 401 {
+                //handle auth mechanism
+                return
+            }
+            
+            completion(.failure(.errorWithStatusCode(response.statusCode)))
         }
     }
 }

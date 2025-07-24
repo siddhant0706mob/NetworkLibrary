@@ -7,11 +7,12 @@
 
 import Foundation
 
-protocol RequestCallerProtocol {
+protocol RequestCallerProtocol: Sendable {
     func request(_ request: URLRequest, completion: @Sendable @escaping (Data?, URLResponse?, Error?) -> Void)
 }
 
-class RequestCaller: RequestCallerProtocol {
+final class RequestCaller: Sendable,
+                           RequestCallerProtocol {
     
     private let session: URLSession
     

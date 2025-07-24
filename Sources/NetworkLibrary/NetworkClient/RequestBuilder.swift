@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol RequestBuilderProtocol: AnyObject {
+protocol RequestBuilderProtocol: Sendable,
+                                 AnyObject {
     func buildRequest(from request: Request) -> URLRequest?
 }
 
