@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ResponseParserProtocol: Sendable, AnyObject {
-    func parseResponse<T: Decodable>(_ data: Data, completion: @Sendable @escaping (Result<T, APIError>) -> Void)
+    func parseResponse<T: Response>(_ data: Data, tClass: T.Type, completion: @Sendable @escaping (Result<T, APIError>) -> Void)
 }
 
 final class ResponseParser: ResponseParserProtocol {
@@ -18,8 +18,8 @@ final class ResponseParser: ResponseParserProtocol {
         self.decoder = decoder
     }
     
-    func parseResponse<T: Decodable>(_ data: Data, completion: @Sendable @escaping (Result<T, APIError>) -> Void) {
-        if let decodedData = try? decoder.decode(T.self, from: data) {
+    func parseResponse<T: Response>(_ data: Data, tClass: T.Type, completion: @Sendable @escaping (Result<T, APIError>) -> Void) {
+        if let decodedData = try? decoder.decode(tClass, from: data) {
             completion(.success(decodedData))
             return
         }

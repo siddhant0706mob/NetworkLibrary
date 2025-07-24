@@ -1,7 +1,7 @@
 import Foundation
 
-public protocol NetworkLibraryProtocol {
-    func request<T: Response>(_ request: Request, completion: @escaping (Result<T, APIError>) -> Void)
+public protocol NetworkClientProtocol {
+    func request<T: Response>(_ request: Request, completion: @Sendable @escaping (Result<T, APIError>) -> Void)
 }
 
 public enum APIError: Error {
@@ -9,8 +9,8 @@ public enum APIError: Error {
     case invalidResponse
     case decodingFailed
     case noData
-    case urlSessionError(URLSession.ResponseDisposition)
     case custom(Error)
+    case errorWithStatusCode(Int)
 }
 
 public enum MethodType: String {
